@@ -1,5 +1,5 @@
-import LineChart from "@/app/components/lineChart"
-
+import GoldLineChart from "@/app/components/lineChart"
+import GoldCandlestick from "../components/candleStickChart"
 export default function Page(){
-    return <LineChart />
+    return <><GoldLineChart /><GoldCandlestick /></>
 }

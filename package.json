@@ -1,0 +1,25 @@
+{
+  "name": "goldpulse",
+  "version": "1.0.0",
+  "description": "This is a node js project, namely a gold speculation app.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ishy546/GoldPulse.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ishy546/GoldPulse/issues"
+  },
+  "homepage": "https://github.com/Ishy546/GoldPulse#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.2.1"
+  },
+  "dependencies": {
+    "yahoo-finance2": "^2.13.3"
+  }
+}
