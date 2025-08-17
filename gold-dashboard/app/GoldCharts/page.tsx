@@ -3,8 +3,10 @@
 import GoldLineChart from "@/app/components/lineChart"
 import GoldCandlestick from "../components/candleStickChart"
 import RsiChart from "../components/RsiChart";
+import MacdChart from "../components/MacdChart";
 import { useState, useEffect } from "react"
 import { Item } from "../utils/extraFunc";
+
 
 export default function Page() {
   const [data, setData] = useState<Item[]>([]); // inside the component
@@ -29,6 +31,7 @@ export default function Page() {
       <GoldLineChart data={data}/>
       <GoldCandlestick data={data}/>
       <RsiChart data={data}/>
+      <MacdChart data={data}/>
     </>
   );
 }
