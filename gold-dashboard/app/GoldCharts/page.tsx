@@ -4,6 +4,7 @@ import GoldLineChart from "@/app/components/lineChart"
 import GoldCandlestick from "../components/candleStickChart"
 import RsiChart from "../components/RsiChart";
 import MacdChart from "../components/MacdChart";
+import VolumeChart from "../components/VolumeChart";
 import { useState, useEffect } from "react"
 import { Item } from "../utils/extraFunc";
 
@@ -32,6 +33,7 @@ export default function Page() {
       <GoldCandlestick data={data}/>
       <RsiChart data={data}/>
       <MacdChart data={data}/>
+      <VolumeChart data={data}/>
     </>
   );
 }

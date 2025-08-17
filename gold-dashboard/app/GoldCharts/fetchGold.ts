@@ -16,7 +16,8 @@ export default async function fetchGoldData(){
       open: item.open?.toFixed(2),
       high: item.high?.toFixed(2),
       low: item.low?.toFixed(2),
-      close: item.close?.toFixed(2)
+      close: item.close?.toFixed(2),
+      volume: item.volume?.toFixed(2)
     }));
 
     }catch (err){
