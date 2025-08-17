@@ -1,4 +1,7 @@
-function calculateRSI(prices: number[], period = 14): number[] {
+export function calculateRSI(prices: number[] | null, period = 14): number[] | undefined {
+    if (prices===null){
+        return []
+    }
   const rsi: number[] = [];
   let gains = 0;
   let losses = 0;
@@ -34,4 +37,50 @@ function calculateRSI(prices: number[], period = 14): number[] {
   }
 
   return rsi;
+}
+
+function calculateEMA(values: number[], period: number): number[] {
+  const k = 2 / (period + 1);
+  const ema: number[] = [];
+
+  // Seed the EMA with a simple moving average for the first value
+  const initialSMA =
+    values.slice(0, period).reduce((acc, val) => acc + val, 0) / period;
+  ema.push(initialSMA);
+
+  for (let i = period; i < values.length; i++) {
+    const price = values[i];
+    const prevEma = ema[ema.length - 1];
+    ema.push(price * k + prevEma * (1 - k));
+  }
+
+  return ema;
+}
+export function calculateMACD(
+  closes: number[],
+  fastPeriod = 12,
+  slowPeriod = 26,
+  signalPeriod = 9
+) {
+  if (closes.length < slowPeriod) return null;
+
+  const fastEMA = calculateEMA(closes, fastPeriod);
+  const slowEMA = calculateEMA(closes, slowPeriod);
+
+  // Align to same length
+  const macdLine: number[] = [];
+  for (let i = 0; i < slowEMA.length; i++) {
+    macdLine.push(fastEMA[i + (slowPeriod - fastPeriod)] - slowEMA[i]);
+  }
+
+  const signalLine = calculateEMA(macdLine, signalPeriod);
+  const histogram = macdLine
+    .slice(signalPeriod - 1)
+    .map((val, idx) => val - signalLine[idx]);
+
+  return {
+    macdLine: macdLine.slice(signalPeriod - 1),
+    signalLine,
+    histogram,
+  };
 }

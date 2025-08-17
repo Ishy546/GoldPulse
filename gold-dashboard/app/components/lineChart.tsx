@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { Item } from "../utils/extraFunc";
 import {
   LineChart,
   Line,
@@ -13,7 +14,7 @@ import {
   AreaChart,
 } from "recharts";
 
-export function GoldLineChart() {
+export function GoldLineChart({ data }: { data: Item[] }) {
   const [goldData, setGoldData] = useState<{ date: string; close: number }[]>([]);
 
   useEffect(() => {

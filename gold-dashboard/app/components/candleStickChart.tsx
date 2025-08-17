@@ -2,45 +2,17 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
-type Item ={
-    date: Date,
-    open: number | null,
-    high: number | null,
-    low: number | null,
-    close: number | null,
-    volume: number | null,
-}
+import { Item } from "../utils/extraFunc";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export default function GoldChart() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("/api/gold");
-        const result = await res.json();
-
-        // ApexCharts needs this format: [timestamp, open, high, low, close]
-        const seriesData = result.slice(-90).map((item: Item) => [
-            new Date(item.date).getTime(),
-            item.open!,
-            item.high!,
-            item.low!,
-            item.close!,
-        ]);
-        setData(seriesData);
-      } catch (err) {
-        console.error("Error fetching gold data:", err);
-      }
-    }
-    
-
-    fetchData();
-  }, []);
-  const prices = data.flatMap(d => [d[1], d[2], d[3], d[4]]); // open, high, low, close
-    const minPrice = Math.min(...prices) * 0.9995; // 5% lower for padding
-    const maxPrice = Math.max(...prices) * 1.0005; // 5% higher for padding
+export default function GoldChart({ data }: { data: Item[] }) {
+    const seriesData = data.slice(-90).map((item: Item) => [
+        new Date(item.date).getTime(),
+        Number(item.open),
+        Number(item.high),
+        Number(item.low),
+        Number(item.close),
+    ]);
 
   const options: ApexOptions = {
     chart: {
@@ -65,7 +37,7 @@ export default function GoldChart() {
 
   const series = [
     {
-      data,
+      data: seriesData,
     },
   ];
 
