@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
 import { Item } from "../utils/extraFunc";
 import {
   LineChart,
@@ -15,20 +14,10 @@ import {
 } from "recharts";
 
 export function GoldLineChart({ data }: { data: Item[] }) {
-  const [goldData, setGoldData] = useState<{ date: string; close: number }[]>([]);
-
-  useEffect(() => {
-    async function loadGold() {
-      const res = await fetch("/api/gold");
-      const data = await res.json();
-      setGoldData(data);
-    }
-    loadGold();
-  }, []);
 
   const minY =
-    goldData.length > 0
-      ? Math.min(...goldData.map((d) => d.close)) * 0.95
+    data.length > 0
+      ? Math.min(...data.map(d => d.close ?? 0)) * 0.95
       : undefined;
 
   return (
@@ -36,7 +25,7 @@ export function GoldLineChart({ data }: { data: Item[] }) {
       <h1 className="font-bold text-4xl text-center mb-8">Gold Price Trend</h1>
       <div className="w-full max-w-5xl p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
         <ResponsiveContainer width="100%" height={400}>
-          <AreaChart data={goldData} >
+          <AreaChart data={data} >
             {/* Gradient fill definition */}
             <defs>
               <linearGradient id="goldGradient" x1="0" y1="0" x2="0" y2="1">

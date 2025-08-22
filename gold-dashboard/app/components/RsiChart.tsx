@@ -1,7 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
 import { Item } from "../utils/extraFunc";
-import { calculateRSI } from "./calculations";
+import { calculateRSI } from "../utils/calculations";
 import {
   LineChart,
   Line,

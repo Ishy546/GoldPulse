@@ -1,5 +1,5 @@
 export type Item ={
-    date: Date,
+    date: string,
     open: number | null,
     high: number | null,
     low: number | null,

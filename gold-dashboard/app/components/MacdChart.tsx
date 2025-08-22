@@ -1,6 +1,6 @@
 "use client";
 import { useMemo } from "react";
-import { calculateMACD } from "./calculations";
+import { calculateMACD } from "../utils/calculations";
 import { Item } from "../utils/extraFunc";
 import {
   LineChart,
