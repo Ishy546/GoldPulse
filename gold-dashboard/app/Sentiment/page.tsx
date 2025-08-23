@@ -4,12 +4,59 @@ import SentimentChartClient from "../components/SentimentVsPriceChart";
 import WeightedSentimentChartClient from "../components/WeightedSentiment";
 import MultiSourceSentimentChartClient from "../components/MultiSourceSentimentChartClient";
 import { Item } from "../utils/extraFunc";
+import { useState, useEffect } from "react";
+import { SentimentItem } from "../utils/fetchSentiment";
 
 export default async function Page() {
-  const sentimentItems = await fetchAndStoreData();
-  const rawApiData = await fetchGoldData();
+  const [goldData, setGoldData] = useState<Item[]>([]);
+  const [goldLoading, setGoldLoading] = useState(true);
+  const [goldError, setGoldError] = useState<string | null>(null);
 
-  const goldData: Item[] = rawApiData.map(d => ({
+  const [sentimentData, setSentimentData] = useState<SentimentItem[]>([]);
+  const [sentimentLoading, setSentimentLoading] = useState(true);
+  const [sentimentError, setSentimentError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchAll() {
+      // Run both fetches in parallel
+      const [goldResult, sentimentResult] = await Promise.allSettled([
+        fetch("/api/gold"),
+        fetch("/api/sentiment"),
+      ]);
+
+      // ----- GOLD -----
+      if (goldResult.status === "fulfilled") {
+        try {
+          if (!goldResult.value.ok) throw new Error(`HTTP ${goldResult.value.status}`);
+          const data: Item[] = await goldResult.value.json();
+          setGoldData(data);
+        } catch (err) {
+          setGoldError((err as Error).message);
+        }
+      } else {
+        setGoldError(goldResult.reason?.message || "Failed to fetch gold data");
+      }
+      setGoldLoading(false);
+
+      // ----- SENTIMENT -----
+      if (sentimentResult.status === "fulfilled") {
+        try {
+          if (!sentimentResult.value.ok) throw new Error(`HTTP ${sentimentResult.value.status}`);
+          const data: SentimentItem[] = await sentimentResult.value.json();
+          setSentimentData(data);
+        } catch (err) {
+          setSentimentError((err as Error).message);
+        }
+      } else {
+        setSentimentError(sentimentResult.reason?.message || "Failed to fetch sentiment data");
+      }
+      setSentimentLoading(false);
+    }
+
+    fetchAll();
+  }, []);
+
+  const goldDataApi: Item[] = goldData.map(d => ({
     date: d.date,
     open: d.open ? Number(d.open) : null,
     high: d.high ? Number(d.high) : null,
@@ -30,7 +77,7 @@ export default async function Page() {
         <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
           Gold Prices vs Avg Sentiment
         </h2>
-        <SentimentChartClient sentimentItems={sentimentItems} goldData={goldData} />
+        <SentimentChartClient sentimentItems={sentimentData} goldData={goldDataApi} />
       </div>
 
       {/* Multi-Source Sentiment Chart */}
@@ -38,7 +85,7 @@ export default async function Page() {
         <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
           Sentiment by Source
         </h2>
-        <MultiSourceSentimentChartClient sentimentItems={sentimentItems} />
+        <MultiSourceSentimentChartClient sentimentItems={sentimentData} />
       </div>
     </div>
   );

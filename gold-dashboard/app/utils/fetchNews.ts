@@ -1,5 +1,4 @@
 import { NewsItem } from "./fetchSentiment";
-import Parser from "rss-parser";
 
 
 // ---------- tiny fetch helpers ----------
