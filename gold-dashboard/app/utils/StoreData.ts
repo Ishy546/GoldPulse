@@ -1,23 +1,15 @@
-import { fetchGNews, fetchFinnhubNews, fetchRedditPostsNoAuth } from "./fetchNews";
+import { fetchFinnhubNews, fetchRedditPostsNoAuth } from "./fetchNews";
 import { dedupeItems, addSentiment, SentimentItem } from "./fetchSentiment";
 import { NewsItem } from "./fetchSentiment";
 
-export type HfSentiment = {
-  date: string;
-  sentiment: "POSITIVE" | "NEGATIVE";
-  score: number;
-};
-
 export async function fetchAndStoreData(): Promise<SentimentItem[]> {
   // 1) Fetch from all sources (failure-tolerant)
-  const [newsdata, finnhub, reddit] = await Promise.allSettled([
-    fetchGNews(),
+  const [finnhub, reddit] = await Promise.allSettled([
     fetchFinnhubNews(),
     fetchRedditPostsNoAuth(),
   ]);
 
   const all: NewsItem[] = [
-    ...(newsdata.status === "fulfilled" ? newsdata.value : []),
     ...(finnhub.status === "fulfilled" ? finnhub.value : []),
     ...(reddit.status === "fulfilled" ? reddit.value : []),
   ];

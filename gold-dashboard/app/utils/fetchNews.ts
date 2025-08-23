@@ -1,4 +1,6 @@
 import { NewsItem } from "./fetchSentiment";
+import Parser from "rss-parser";
+
 
 // ---------- tiny fetch helpers ----------
 // goal of this function is to add a timeout and error checking to a fetch call, ensures app fails fast instead of hanging
@@ -29,22 +31,6 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 2, delayMs= 800): Pr
 }
 
 // ------------------ Individual Fetchers ------------------
-
-export const fetchGNews = async (): Promise<NewsItem[]> => {
-  const res = await fetch(
-    `https://gnews.io/api/v4/search?q=gold&lang=en&max=10&apikey=${process.env.GNEWS_API_KEY}`
-  );
-  if (!res.ok) throw new Error(`GNews error: ${res.status}`);
-  const data = await res.json();
-
-  return (data.articles ?? []).map((a: any): NewsItem => ({
-    title: a.title,
-    url: a.url,
-    date: a.publishedAt,
-    source: a.source?.name || "gnews",
-  }));
-};
-
 // Finnhub
 export async function fetchFinnhubNews(): Promise<NewsItem[]> {
   try {

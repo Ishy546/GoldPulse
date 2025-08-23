@@ -1,18 +1,50 @@
 import Image from "next/image"
 import goldImage from "@/images/goldImage.jpg"
+import Link from "next/link";
 
 
-export default function LandingPage(){
+export default function LandingPage() {
   return (
-    <section className="flex flex-col-reverse items-center gap-8 px-6 py-
-        mx-auto md:flex-row max-w-7xl">
-      <div>
-          <p className="hidden text-sm text-gray-600 uppercase md:block">Your go-to platform for gold price tracking</p>
-          <h1 className="text-4xl font-bold md:text-5xl">Discover what's possible with gold tracking</h1>
-          <p className="text-lg text-gray-600">Join our community of creators and explore a vast library of user-submitted models.</p>
-          <button className="px-6 py-3 text-black transition duration-100 bg-white border-2 border-black hover:bg-black hover:text-white">Browse models</button>
+    <section className="relative bg-gradient-to-r from-yellow-100 via-yellow-50 to-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 py-20 flex flex-col-reverse md:flex-row items-center gap-12">
+        
+        {/* Text content */}
+        <div className="flex-1 space-y-6">
+          <p className="hidden md:block text-sm font-medium text-gray-600 uppercase tracking-wide">
+            Your go-to platform for gold price tracking
+          </p>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+            Discover what's possible with gold tracking
+          </h1>
+          <p className="text-lg text-gray-700">
+            Stay Ahead with Live Gold Charts and Market Insights.
+          </p>
+          <div>
+            <Link href="/GoldCharts">
+  <button className="mt-2 px-6 py-3 text-black bg-white border-2 border-black font-semibold rounded-lg transition duration-300 hover:bg-black hover:text-white">
+    Explore Gold Charts
+  </button>
+</Link>
+          </div>
+        </div>
+
+        {/* Image */}
+        <div className="flex-1 flex justify-center md:justify-end">
+          <Image
+            className="rounded-xl shadow-2xl"
+            src={goldImage}
+            alt="Gold tracking"
+            width={400}
+            height={400}
+            priority
+          />
+        </div>
+
       </div>
-      <Image className = "flex flex-col" src={goldImage} alt="Gold image" width="350" height="350"/>
+      
+      {/* Optional: subtle decorative shapes or background accents */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-200 rounded-full opacity-20 -z-10"></div>
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-300 rounded-full opacity-20 -z-10"></div>
     </section>
-  )
+  );
 }
