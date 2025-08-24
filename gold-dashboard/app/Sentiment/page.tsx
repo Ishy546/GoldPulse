@@ -1,3 +1,4 @@
+"use client"
 import { fetchAndStoreData } from "../utils/StoreData";
 import fetchGoldData from "@/app/utils/fetchGold";
 import SentimentChartClient from "../components/SentimentVsPriceChart";
@@ -7,7 +8,7 @@ import { Item } from "../utils/extraFunc";
 import { useState, useEffect } from "react";
 import { SentimentItem } from "../utils/fetchSentiment";
 
-export default async function Page() {
+export default function Page() {
   const [goldData, setGoldData] = useState<Item[]>([]);
   const [goldLoading, setGoldLoading] = useState(true);
   const [goldError, setGoldError] = useState<string | null>(null);
@@ -21,7 +22,7 @@ export default async function Page() {
       // Run both fetches in parallel
       const [goldResult, sentimentResult] = await Promise.allSettled([
         fetch("/api/gold"),
-        fetch("/api/sentiment"),
+        fetch("/api/Fetch-Sentiment"),
       ]);
 
       // ----- GOLD -----
@@ -63,8 +64,15 @@ export default async function Page() {
     low: d.low ? Number(d.low) : null,
     close: d.close ? Number(d.close) : null,
     volume: d.volume ? Number(d.volume) : null,
-  }));
-
+  })).filter(
+    (d) =>
+      d.open !== null &&
+      d.high !== null &&
+      d.low !== null &&
+      d.close !== null &&
+      d.volume !== null &&
+      d.volume !== 0 // also remove zero-volume days
+  );
   return (
     <div className="min-h-screen bg-gray-50 p-6 space-y-12">
       {/* Page Header */}

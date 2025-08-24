@@ -35,12 +35,13 @@ export default function MultiSourceSentimentChartClient({ sentimentItems }: Prop
       let compositeCount = 0;
 
       for (const [src, scores] of Object.entries(sources)) {
-        const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
-        const rounded = Number(avg.toFixed(3));
-        entry[src] = rounded;
-        compositeSum += rounded;
-        compositeCount++;
-      }
+  const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+  const scaled = avg * 20; // scale to match first chart
+  const rounded = Number(scaled.toFixed(2)); // same 2-decimal formatting
+  entry[src] = rounded;
+  compositeSum += rounded;
+  compositeCount++;
+}
 
       entry.composite = compositeCount > 0 ? Number((compositeSum / compositeCount).toFixed(3)) : 0;
       dailyScores[date] = entry;
