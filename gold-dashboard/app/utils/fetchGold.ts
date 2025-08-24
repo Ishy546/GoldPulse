@@ -1,5 +1,4 @@
 import yahooFinance from "yahoo-finance2";
-import supabase from "./supabase-client";
 
 export default async function fetchGoldData() {
   const today = new Date();

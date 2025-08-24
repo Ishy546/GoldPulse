@@ -14,7 +14,7 @@ export default function LandingPage() {
             Your go-to platform for gold price tracking
           </p>
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-            Discover what's possible with gold tracking
+            Discover what&apos;s possible with gold tracking
           </h1>
           <p className="text-lg text-gray-700">
             Stay Ahead with Live Gold Charts and Market Insights.

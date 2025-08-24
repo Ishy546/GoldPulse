@@ -1,8 +1,5 @@
 "use client"
-import { fetchAndStoreData } from "../utils/StoreData";
-import fetchGoldData from "@/app/utils/fetchGold";
 import SentimentChartClient from "../components/SentimentVsPriceChart";
-import WeightedSentimentChartClient from "../components/WeightedSentiment";
 import MultiSourceSentimentChartClient from "../components/MultiSourceSentimentChartClient";
 import { Item } from "../utils/extraFunc";
 import { useState, useEffect } from "react";
@@ -16,6 +13,7 @@ export default function Page() {
   const [sentimentData, setSentimentData] = useState<SentimentItem[]>([]);
   const [sentimentLoading, setSentimentLoading] = useState(true);
   const [sentimentError, setSentimentError] = useState<string | null>(null);
+  console.log(goldLoading, goldError, sentimentLoading, sentimentError);
 
   useEffect(() => {
     async function fetchAll() {

@@ -21,7 +21,7 @@ export async function fetchAndStoreData(): Promise<SentimentItem[]> {
 
   // 2) Deduplicate and add sentiment
   const combined = dedupeItems(all);
-  const processed = await addSentiment(combined, 4);
+  const processed = await addSentiment(combined);
 
   // 3) Format for chart
   // 3) Format as SentimentItem[] (keep all NewsItem fields)

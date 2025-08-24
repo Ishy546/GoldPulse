@@ -1,5 +1,6 @@
-const Sentiment = require("sentiment");
-const emojiStrip = require("emoji-strip");
+
+import Sentiment from "sentiment"
+import emojiStrip from 'emoji-strip';
 
 export type NewsItem = {
   title: string;
@@ -38,8 +39,7 @@ export function dedupeItems<T extends { title: string; url?: string }>(items: T[
 const analyzer = new Sentiment();
 
 export async function addSentiment(
-  items: NewsItem[],
-  concurrency = 10
+  items: NewsItem[]
 ): Promise<SentimentItem[]> {
   return items.map((item) => {
     const cleaned = cleanText(item.title);

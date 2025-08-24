@@ -3,7 +3,7 @@ import supabase from "@/app/utils/supabase-client";
 import { fetchAndStoreData } from "@/app/utils/StoreData";
 import { SentimentItem } from "@/app/utils/fetchSentiment";
 
-export async function GET(req: NextRequest){
+export async function GET(_req: NextRequest){
     try{
  // 1) Fetch fresh sentiment data
     const sentimentData: SentimentItem[] = await fetchAndStoreData();

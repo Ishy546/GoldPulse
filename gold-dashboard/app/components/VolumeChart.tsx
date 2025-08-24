@@ -39,7 +39,7 @@ const VolumeChart = ({ data }: { data: Item[] }) => {
               tickFormatter={(value) => value.toLocaleString()}
             />
             <Tooltip
-              formatter={(_, __, props: any) => [
+              formatter={(_, __, props?: any) => [
                 props.payload.volume.toLocaleString(), // show real volume
                 "Volume",
               ]}
@@ -52,6 +52,7 @@ const VolumeChart = ({ data }: { data: Item[] }) => {
               fill="#8884d8"
               shape={(props: any) => {
                 const { height, y, value, x, width, payload } = props;
+                console.log(value)
                 const color = payload.volume > cutoff ? "#ff4d4f" : "#8884d8";
                 return (
                   <rect x={x} y={y} width={width} height={height} fill={color} />

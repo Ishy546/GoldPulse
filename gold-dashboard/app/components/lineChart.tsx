@@ -1,8 +1,6 @@
 "use client";
 import { Item } from "../utils/extraFunc";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,

@@ -31,6 +31,7 @@ export default function FooterSignup() {
         setStatus("error");
       }
     } catch (err) {
+        console.log(err)
       setStatus("error");
     }
   }

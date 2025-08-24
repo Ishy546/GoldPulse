@@ -1,6 +1,18 @@
 import { NewsItem } from "./fetchSentiment";
 
+type FinnhubArticle = {
+  headline?: string;
+  datetime?: number; // Unix timestamp
+  url?: string;
+};
 
+type RedditPost = {
+  data: {
+    created_utc: number;
+    title: string;
+    permalink: string;
+  };
+};
 // ---------- tiny fetch helpers ----------
 // goal of this function is to add a timeout and error checking to a fetch call, ensures app fails fast instead of hanging
 const DEFAULT_TIMEOUT_MS = 15_000;
@@ -34,23 +46,24 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 2, delayMs= 800): Pr
 export async function fetchFinnhubNews(): Promise<NewsItem[]> {
   try {
     const url = `https://finnhub.io/api/v1/news?category=general&token=${process.env.FINNHUB_API_KEY}`;
-    const data = await withRetry(() => fetchJSON<any[]>(url));
+    const data = await withRetry(() => fetchJSON<FinnhubArticle[]>(url));
     if (!Array.isArray(data)) return [];
 
     const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     return data
       .filter(
-        (art: any) =>
-          typeof art?.headline === "string" &&
+        art =>
+          typeof art.headline === "string" &&
           art.headline.toLowerCase().includes("gold") &&
+          art.datetime !== undefined &&
           new Date(art.datetime * 1000).getTime() >= sevenDaysAgo
       )
       .slice(0, 10)
-      .map((art: any): NewsItem => ({
-        title: art.headline,
-        url: art.url,
-        date: new Date(art.datetime * 1000).toISOString(),
-        source: "finnhub",
+      .map(art => ({
+        title: art.headline!,
+        url: art.url ?? "#",
+        date: new Date((art.datetime ?? 0) * 1000).toISOString(),
+        source: "finnhub" as const,
       }));
   } catch (e) {
     console.error("fetchFinnhubNews failed:", e);
@@ -69,16 +82,17 @@ export const fetchRedditPostsNoAuth = async (): Promise<NewsItem[]> => {
     const data = await res.json();
 
     const sevenDaysAgo = Date.now() / 1000 - 7 * 24 * 60 * 60;
-    return (data.data?.children ?? [])
-      .filter((p: any) => p.data.created_utc >= sevenDaysAgo)
-      .map((p: any): NewsItem => ({
+    return (data.data?.children as RedditPost[] ?? [])
+      .filter(p => p.data.created_utc >= sevenDaysAgo)
+      .map(p => ({
         title: p.data.title,
         url: `https://reddit.com${p.data.permalink}`,
         date: new Date(p.data.created_utc * 1000).toISOString(),
-        source: "reddit",
+        source: "reddit" as const,
       }));
   } catch (e) {
     console.error("fetchRedditPostsNoAuth failed:", e);
     return [];
   }
 };
+

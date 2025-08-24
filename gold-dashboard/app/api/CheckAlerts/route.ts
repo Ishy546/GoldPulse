@@ -1,4 +1,6 @@
-import alertEmitter from "@/app/utils/alertEmitter";
-import supabase from "@/app/utils/supabase-client";
-
 //implement alert system later
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  return NextResponse.json({ message: "Not implemented yet" });
+}
