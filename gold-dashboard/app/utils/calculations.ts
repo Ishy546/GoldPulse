@@ -88,8 +88,8 @@ export function calculateMACD(
 export function formatDate(dateString: string) {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {
-    month: "2-digit",
-    day: "2-digit",
-    year: "numeric",
+    month: "short",  // Feb
+    day: "2-digit",  // 28
+    year: "numeric", // 2025
   });
 }

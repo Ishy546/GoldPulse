@@ -1,3 +1,4 @@
+export const runtime = "nodejs";  // 👈 forces Node runtime instead of Edge
 import { NextRequest, NextResponse } from "next/server";
 import supabase from "@/app/utils/supabase-client";
 import { fetchAndStoreData } from "@/app/utils/StoreData";

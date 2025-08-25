@@ -42,7 +42,7 @@ export function GoldLineChart({ data }: { data: Item[] }) {
               textAnchor="start"
               interval={15}
               height={60}
-              tick={{ fontSize: 14, fontWeight: "bold" }}
+              tick={{ fontSize: 11, fontWeight: "bold" }}
               label={{
     position: "insideBottom",
     offset: -5,
@@ -53,15 +53,16 @@ export function GoldLineChart({ data }: { data: Item[] }) {
 
             {/* Y axis */}
             <YAxis
-              tick={{ fontSize: 14, fontWeight: "bold" }}
-              label={{
-    value: "Close Price (USD)",
-    angle: -90,
-    textAnchor: "start",
-    style: { fontSize: 20, fontStyle: "italic", fontFamily: "Arial" },
-  }}
-              domain={[minY || "auto", "auto"]}
-            />
+  tick={{ fontSize: 14, fontWeight: "bold" }}
+  label={{
+        value: "Close Price (USD)",
+        angle: -90,
+        offset: 100,
+        textAnchor: "middle",
+        style: { fontSize: 20, fontStyle: "italic", fontFamily: "Arial" },
+      }}
+  domain={[minY || "auto", "auto"]}
+/>
 
             {/* Tooltip + Legend */}
             <Tooltip />

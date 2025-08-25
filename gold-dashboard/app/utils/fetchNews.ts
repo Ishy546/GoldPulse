@@ -76,7 +76,7 @@ export const fetchRedditPostsNoAuth = async (): Promise<NewsItem[]> => {
   try {
     const url = `https://www.reddit.com/search.json?q=gold%20price&sort=new&limit=10`;
     const res = await fetch(url, {
-      headers: { "User-Agent": "gold-sentiment-app/0.1 by yourusername" },
+      headers: { "User-Agent": "gold-sentiment-app/0.1 (by /u/Interesting-Boat7154)" },
     });
     if (!res.ok) throw new Error(`Reddit no-auth failed: ${res.status}`);
     const data = await res.json();
