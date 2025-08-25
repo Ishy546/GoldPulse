@@ -90,6 +90,6 @@ export function formatDate(dateString: string) {
   return date.toLocaleDateString("en-US", {
     month: "short",  // Feb
     day: "2-digit",  // 28
-    year: "numeric", // 2025
+    // year removed
   });
 }
