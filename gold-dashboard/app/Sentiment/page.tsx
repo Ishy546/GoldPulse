@@ -71,10 +71,7 @@ export default function Page() {
       d.close !== null &&
       d.volume !== null &&
       d.volume !== 0 // also remove zero-volume days
-  ).map((item) => ({
-    ...item,
-    date: formatDate(item.date) // new field
-  }));
+  )
   return (
     <div className="min-h-screen bg-gray-50 p-6 space-y-12">
       {/* Page Header */}
