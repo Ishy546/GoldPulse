@@ -8,6 +8,7 @@ export async function fetchAndStoreData(): Promise<SentimentItem[]> {
     fetchFinnhubNews(),
     fetchRedditPostsNoAuth(),
   ]);
+  console.log(reddit)
 
   const all: NewsItem[] = [
     ...(finnhub.status === "fulfilled" ? finnhub.value : []),

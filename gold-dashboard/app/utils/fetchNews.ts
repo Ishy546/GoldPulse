@@ -81,18 +81,15 @@ export const fetchRedditPostsNoAuth = async (): Promise<NewsItem[]> => {
     if (!res.ok) throw new Error(`Reddit no-auth failed: ${res.status}`);
     const data = await res.json();
 
-    const sevenDaysAgo = Date.now() / 1000 - 7 * 24 * 60 * 60;
-    return (data.data?.children as RedditPost[] ?? [])
-      .filter(p => p.data.created_utc >= sevenDaysAgo)
-      .map(p => ({
-        title: p.data.title,
-        url: `https://reddit.com${p.data.permalink}`,
-        date: new Date(p.data.created_utc * 1000).toISOString(),
-        source: "reddit" as const,
-      }));
+    return (data.data?.children as RedditPost[] ?? []).map(p => ({
+      title: p.data.title,
+      url: `https://reddit.com${p.data.permalink}`,
+      // created_utc is in seconds, convert to ISO
+      date: new Date(p.data.created_utc * 1000).toISOString(),
+      source: "reddit" as const,
+    }));
   } catch (e) {
     console.error("fetchRedditPostsNoAuth failed:", e);
     return [];
   }
 };
-
