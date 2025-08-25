@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Call Vercel Function
         run: |
-          curl -X GET https://your-vercel-app.vercel.app/api/Update-Sentiment
+          curl -X GET https://gold-pulse-7tfs-2opi4bsa1-ismael-anwars-projects.vercel.app/api/Update-Sentiment
