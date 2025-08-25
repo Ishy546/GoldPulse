@@ -1,5 +1,5 @@
 "use client"
-
+import { formatDate } from "../utils/calculations";
 import GoldLineChart from "@/app/components/lineChart"
 import GoldCandlestick from "../components/candleStickChart"
 import RsiChart from "../components/RsiChart";
@@ -33,7 +33,10 @@ const cleanedData = data.filter(
     item.close !== null &&
     item.volume !== null &&
     item.volume !== 0
-);// very important, removes null values.
+).map((item) => ({
+    ...item,
+    date: formatDate(item.date) // new field
+  }));// very important, removes null values.
   return (
     <div className="min-h-screen bg-gray-50 p-6 space-y-12">
       {/* Page Header */}
