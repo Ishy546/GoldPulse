@@ -47,10 +47,17 @@ export async function fetchFinnhubNews(): Promise<NewsItem[]> {
   try {
     const url = `https://finnhub.io/api/v1/news?category=general&token=${process.env.FINNHUB_API_KEY}`;
     const data = await withRetry(() => fetchJSON<FinnhubArticle[]>(url));
-    if (!Array.isArray(data)) return [];
+
+    // Log the raw API response for debugging
+    console.log("Finnhub raw data:", data);
+
+    if (!Array.isArray(data)) {
+      console.warn("Finnhub response is not an array:", data);
+      return [];
+    }
 
     const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-    return data
+    const filtered = data
       .filter(
         art =>
           typeof art.headline === "string" &&
@@ -65,6 +72,9 @@ export async function fetchFinnhubNews(): Promise<NewsItem[]> {
         date: new Date((art.datetime ?? 0) * 1000).toISOString(),
         source: "finnhub" as const,
       }));
+
+    console.log("Finnhub filtered news:", filtered);
+    return filtered;
   } catch (e) {
     console.error("fetchFinnhubNews failed:", e);
     return [];

@@ -1,3 +1,3 @@
 # GoldPulse
 
-This is a node js project, namely a gold speculation app.
+This is a gold price dashboard + sentiment analysis application.
