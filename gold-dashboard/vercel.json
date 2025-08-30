@@ -3,6 +3,10 @@
     {
       "path": "/api/Update-Gold",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/Update-Sentiment",
+      "schedule": "0 * * * *"       
     }
   ]
 }
