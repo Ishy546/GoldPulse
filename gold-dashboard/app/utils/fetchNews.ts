@@ -58,7 +58,7 @@ export async function fetchFinnhubNews(): Promise<NewsItem[]> {
           art.datetime !== undefined &&
           new Date(art.datetime * 1000).getTime() >= sevenDaysAgo
       )
-      .slice(0, 10)
+      .slice(0, 30)
       .map(art => ({
         title: art.headline!,
         url: art.url ?? "#",
@@ -74,7 +74,7 @@ export async function fetchFinnhubNews(): Promise<NewsItem[]> {
 // Reddit
 export const fetchRedditPostsNoAuth = async (): Promise<NewsItem[]> => {
   try {
-    const url = `https://www.reddit.com/search.json?q=gold%20price&sort=new&limit=10`;
+    const url = `https://www.reddit.com/search.json?q=gold%20price&sort=new&limit=20`;
     const res = await fetch(url, {
       headers: { "User-Agent": "gold-sentiment-app/0.1 (by /u/Interesting-Boat7154)" },
     });
