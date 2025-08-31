@@ -1,4 +1,4 @@
-import { fetchFinnhubNews, fetchRedditPostsNoAuth } from "./fetchNews";
+import { fetchFinnhubNews, fetchRedditPostsOAuth } from "./fetchNews";
 import { dedupeItems, addSentiment, SentimentItem } from "./fetchSentiment";
 import { NewsItem } from "./fetchSentiment";
 
@@ -6,7 +6,7 @@ export async function fetchAndStoreData(): Promise<SentimentItem[]> {
   // 1) Fetch from all sources (failure-tolerant)
   const [finnhub, reddit] = await Promise.allSettled([
     fetchFinnhubNews(),
-    fetchRedditPostsNoAuth(),
+    fetchRedditPostsOAuth(),
   ]);
   console.log(reddit)
 
